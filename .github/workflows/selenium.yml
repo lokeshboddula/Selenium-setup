@@ -17,7 +17,6 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
-
       - name: Cache Maven dependencies
         uses: actions/cache@v4
         with:
@@ -29,3 +28,18 @@ jobs:
 
       - name: Run Maven tests
         run: mvn clean test
+      - name: Prepare GitHub Pages folder
+        if: always()
+        run: |
+          mkdir -p gh-pages
+          cp -r test-output/* gh-pages/
+      - name: Rename report to index.html
+        if: always()
+        run: |
+          cp test-output/ExtentReport.html gh-pages/index.html
+      - name: Deploy to GitHub Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./gh-pages
