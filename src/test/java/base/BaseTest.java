@@ -3,6 +3,7 @@ package base;
 import Utils.ExtentManager;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
@@ -14,6 +15,7 @@ import java.time.Duration;
 public class BaseTest {
     public WebDriver driver = DriverFactory.createDriver();
     protected ExtentReports extent;
+    protected ExtentTest test;
 
     @BeforeMethod
     public void setUp() {
@@ -23,12 +25,17 @@ public class BaseTest {
 
     @BeforeSuite
     public void startReport() {
-        extent = ExtentManager.getInstance();
+        ExtentSparkReporter spark = new ExtentSparkReporter("test-output/ExtentReport.html");
+        extent = new ExtentReports();
+        extent.attachReporter(spark);
+
+        extent.setSystemInfo("OS", "Linux");
+        extent.setSystemInfo("Tester", "AutomationUser");
     }
 
     @BeforeMethod
     public void startTest(Method method) {
-        ExtentTest test = extent.createTest(method.getName());
+        test = extent.createTest(method.getName());
         ExtentManager.setTest(test);
     }
 
