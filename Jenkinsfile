@@ -7,12 +7,9 @@ pipeline {
         timeout(time: 30, unit: 'MINUTES')
     }
 
-    environment {
-        JAVA_HOME = tool name: 'JDK17', type: 'jenkins.plugins.shiningpanda.tools.JavaInstallation'
-        MAVEN_HOME = tool name: 'Maven3', type: 'hudson.tasks.Maven$MavenInstallation'
-
-        PATH+JAVA = "${JAVA_HOME}/bin"
-        PATH+MAVEN = "${MAVEN_HOME}/bin"
+    tools {
+        jdk 'JDK17'
+        maven 'Maven3'
     }
 
     stages {
