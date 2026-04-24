@@ -3,10 +3,7 @@ package tests;
 import base.BaseTest;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 import org.testng.annotations.Test;
-import java.time.Duration;
 import java.time.LocalDateTime;
 
 
@@ -28,6 +25,7 @@ public class LoginTest extends BaseTest {
         log.info("sdfsdf");
         log.info("dsdfdffdsfsdf");
         log.warn("warńnnnning loggggg");
+        log.info("this is used to trigger pipeline", title);
         log.warn(LocalDateTime.now().toString());
     }
 }
