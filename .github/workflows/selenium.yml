@@ -32,11 +32,15 @@ jobs:
         if: always()
         run: |
           mkdir -p gh-pages
-          cp -r test-output/* gh-pages/
+          if [ -d test-output ]; then
+            cp -r test-output/* gh-pages/ 2>/dev/null || true
+          fi
       - name: Rename report to index.html
         if: always()
         run: |
-          cp test-output/ExtentReport.html gh-pages/index.html
+          if [ -f test-output/ExtentReport.html ]; then
+            cp test-output/ExtentReport.html gh-pages/index.html
+          fi
       - name: Deploy to GitHub Pages
         if: always()
         uses: peaceiris/actions-gh-pages@v4
