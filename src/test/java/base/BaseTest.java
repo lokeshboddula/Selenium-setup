@@ -3,7 +3,6 @@ package base;
 import Utils.ExtentManager;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
-import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
@@ -25,12 +24,7 @@ public class BaseTest {
 
     @BeforeSuite
     public void startReport() {
-        ExtentSparkReporter spark = new ExtentSparkReporter("test-output/ExtentReport.html");
-        extent = new ExtentReports();
-        extent.attachReporter(spark);
-
-        extent.setSystemInfo("OS", "Linux");
-        extent.setSystemInfo("Tester", "AutomationUser");
+        extent = ExtentManager.getInstance();
     }
 
     @BeforeMethod
@@ -51,6 +45,7 @@ public class BaseTest {
         } else {
             test.skip("Test Skipped");
         }
+        
     }
 
     @AfterSuite
@@ -61,4 +56,3 @@ public class BaseTest {
         extent.flush(); // 🔴 MUST HAVE
     }
 }
-
