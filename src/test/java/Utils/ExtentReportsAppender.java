@@ -7,13 +7,11 @@ import org.apache.logging.log4j.core.config.plugins.Plugin;
 import org.apache.logging.log4j.core.config.plugins.PluginAttribute;
 import org.apache.logging.log4j.core.config.plugins.PluginFactory;
 
-import java.io.Serializable;
-
 @Plugin(name = "ExtentReportsAppender", category = "Core", elementType = "appender")
 public class ExtentReportsAppender extends AbstractAppender {
 
-    protected ExtentReportsAppender(String name, Filter filter, Layout<? extends Serializable> layout) {
-        super(name, filter, layout);
+    public ExtentReportsAppender(String name, Filter filter, boolean ignoreExceptions) {
+        super(name, filter, null, ignoreExceptions);
     }
 
     @Override
@@ -41,7 +39,9 @@ public class ExtentReportsAppender extends AbstractAppender {
     }
 
     @PluginFactory
-    public static ExtentReportsAppender createAppender(@PluginAttribute("name") String name) {
-        return new ExtentReportsAppender(name, null, null);
+    public static ExtentReportsAppender createAppender(
+            @PluginAttribute("name") String name,
+            @PluginAttribute(value = "ignoreExceptions") boolean ignoreExceptions) {
+        return new ExtentReportsAppender(name, null, ignoreExceptions);
     }
 }

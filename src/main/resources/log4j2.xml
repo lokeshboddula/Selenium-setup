@@ -4,9 +4,7 @@
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </Console>
-        <ExtentReportsAppender name="ExtentAppender">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
-        </ExtentReportsAppender>
+        <ExtentReportsAppender name="ExtentAppender"/>
     </Appenders>
     <Loggers>
         <Root level="info">
