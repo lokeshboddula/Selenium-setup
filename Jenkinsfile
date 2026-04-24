@@ -9,9 +9,10 @@ pipeline {
 
     environment {
         JAVA_HOME = tool name: 'JDK17', type: 'jenkins.plugins.shiningpanda.tools.JavaInstallation'
-        PATH = "${JAVA_HOME}/bin:${PATH}"
         MAVEN_HOME = tool name: 'Maven3', type: 'hudson.tasks.Maven$MavenInstallation'
-        PATH = "${MAVEN_HOME}/bin:${PATH}"
+
+        PATH+JAVA = "${JAVA_HOME}/bin"
+        PATH+MAVEN = "${MAVEN_HOME}/bin"
     }
 
     stages {
