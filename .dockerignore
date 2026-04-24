@@ -1,0 +1,11 @@
+target/
+.git/
+.gitignore
+.md
+reports/
+test-output/
+*.class
+.DS_Store
+.idea/
+*.iml
+node_modules/
