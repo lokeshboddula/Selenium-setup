@@ -1,15 +1,15 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven:3.9.4-eclipse-temurin-17'
-            args '-v /tmp:/tmp'
-        }
-    }
+    agent any
 
     options {
         buildDiscarder(logRotator(numToKeepStr: '10'))
         timestamps()
         timeout(time: 30, unit: 'MINUTES')
+    }
+
+    tools {
+        jdk 'JDK17'
+        maven 'Maven3'
     }
 
     stages {
@@ -86,3 +86,4 @@ pipeline {
         }
     }
 }
+

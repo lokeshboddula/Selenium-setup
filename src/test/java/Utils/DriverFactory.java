@@ -38,7 +38,12 @@ public class DriverFactory {
             options.addArguments("--no-sandbox");
             options.addArguments("--disable-dev-shm-usage");
             options.addArguments("--disable-gpu");
-            options.setBinary("/usr/bin/chromium");
+            
+            // Try multiple possible Chromium paths (Docker packages vary)
+            String chromiumPath = getChromiumPath();
+            if (chromiumPath != null) {
+                options.setBinary(chromiumPath);
+            }
             System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
         } else if (isJenkinsEnvironment()) {
             // 👇 Jenkins environment options
@@ -69,6 +74,25 @@ public class DriverFactory {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    private String getChromiumPath() {
+        // Try multiple possible Chromium installation paths
+        String[] chromiumPaths = {
+            "/usr/bin/chromium",
+            "/usr/bin/chromium-browser",
+            "/snap/bin/chromium",
+            "/Applications/Chromium.app/Contents/MacOS/Chromium" // macOS
+        };
+        
+        for (String path : chromiumPaths) {
+            if (new java.io.File(path).exists()) {
+                System.out.println("Found Chromium at: " + path);
+                return path;
+            }
+        }
+        System.out.println("WARNING: Chromium not found at common paths. Using default.");
+        return null; // Let ChromeDriver find it automatically
     }
 
     public void quitDriver() {

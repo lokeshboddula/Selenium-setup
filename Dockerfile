@@ -48,6 +48,12 @@ RUN apt-get update && apt-get install -y \
 # Install Maven
 RUN apt-get update && apt-get install -y maven && rm -rf /var/lib/apt/lists/*
 
+# Verify Chrome and ChromeDriver installation
+RUN chromium-browser --version && which chromedriver
+
+# Create symlinks for common paths if needed
+RUN ln -sf /usr/bin/chromium-browser /usr/bin/chromium 2>/dev/null || true
+
 # Create working directory
 WORKDIR /app
 
@@ -56,6 +62,9 @@ COPY . .
 
 # Create test-output directory
 RUN mkdir -p test-output
+
+# Set environment variable to indicate Docker environment
+ENV DOCKER_CONTAINER=true
 
 # Run tests
 CMD ["mvn", "clean", "test"]
