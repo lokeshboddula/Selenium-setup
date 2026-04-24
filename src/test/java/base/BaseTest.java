@@ -12,12 +12,16 @@ import java.lang.reflect.Method;
 import java.time.Duration;
 
 public class BaseTest {
-    public WebDriver driver = DriverFactory.createDriver();
+    private DriverFactory driverFactory;
+    public WebDriver driver;
     private static ExtentReports extent;
     protected ExtentTest test;
 
     @BeforeMethod
     public void setUp() {
+        driverFactory = new DriverFactory();
+        driverFactory.initializeDriver();
+        driver = driverFactory.getDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.manage().window().maximize();
     }
@@ -50,13 +54,13 @@ public class BaseTest {
         } else {
             test.skip("Test Skipped");
         }
-        
+
     }
 
     @AfterSuite
     public void tearDown() {
-        if (driver != null) {
-            driver.quit();
+        if (driverFactory != null) {
+            driverFactory.quitDriver();
         }
         extent.flush(); // 🔴 MUST HAVE
     }

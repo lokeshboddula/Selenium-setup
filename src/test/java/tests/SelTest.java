@@ -28,6 +28,5 @@ public class SelTest extends BaseTest {
 //
 //                when().
 //                then().assert().statusCode(200)..statusCode(302).log().all().Response();
-        driver.quit();
     }
 }

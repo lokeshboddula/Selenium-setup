@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 
 
 @Slf4j
+@Test
 public class LoginTest extends BaseTest {
 
     @Test
