@@ -25,7 +25,7 @@ public class LoginTest extends BaseTest {
         log.info("sdfsdf");
         log.info("dsdfdffdsfsdf");
         log.warn("warńnnnning loggggg");
-        log.info("this is used to trigger pipeline", title);
+        log.info("this is used to trigger pipeline{}", title);
         log.warn(LocalDateTime.now().toString());
     }
 }
