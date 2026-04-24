@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'maven:3.9.4-eclipse-temurin-17'
+            args '-v /tmp:/tmp'
+        }
+    }
 
     options {
         buildDiscarder(logRotator(numToKeepStr: '10'))
@@ -7,16 +12,31 @@ pipeline {
         timeout(time: 30, unit: 'MINUTES')
     }
 
-    tools {
-        jdk 'JDK17'
-        maven 'Maven3'
-    }
-
     stages {
         stage('Checkout') {
             steps {
                 checkout scm
                 echo "Repository checked out successfully"
+            }
+        }
+
+        stage('Install Chrome') {
+            steps {
+                script {
+                    if (isUnix()) {
+                        sh '''
+                            # Install Chrome on Linux
+                            wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add -
+                            echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list
+                            apt-get update
+                            apt-get install -y google-chrome-stable
+                            google-chrome --version
+                        '''
+                    } else {
+                        // For Windows agents, Chrome should be pre-installed
+                        echo "Assuming Chrome is installed on Windows agent"
+                    }
+                }
             }
         }
 
@@ -66,4 +86,3 @@ pipeline {
         }
     }
 }
-
