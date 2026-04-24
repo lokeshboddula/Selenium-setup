@@ -13,7 +13,7 @@ import java.time.Duration;
 
 public class BaseTest {
     public WebDriver driver = DriverFactory.createDriver();
-    protected ExtentReports extent;
+    private static ExtentReports extent;
     protected ExtentTest test;
 
     @BeforeMethod
@@ -24,11 +24,16 @@ public class BaseTest {
 
     @BeforeSuite
     public void startReport() {
-        extent = ExtentManager.getInstance();
+        if (extent == null) {
+            extent = ExtentManager.getInstance();
+        }
     }
 
     @BeforeMethod
     public void startTest(Method method) {
+        if (extent == null) {
+            extent = ExtentManager.getInstance();
+        }
         test = extent.createTest(method.getName());
         ExtentManager.setTest(test);
     }
