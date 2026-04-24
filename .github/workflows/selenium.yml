@@ -28,6 +28,11 @@ jobs:
 
       - name: Run Maven tests
         run: mvn clean test
+      - name: Debug test-output
+        if: always()
+        run: |
+          echo "Contents of test-output:"
+          ls -la test-output/ || echo "test-output not found"
       - name: Prepare GitHub Pages folder
         if: always()
         run: |
@@ -35,12 +40,19 @@ jobs:
           if [ -d test-output ]; then
             cp -r test-output/* gh-pages/ 2>/dev/null || true
           fi
+          echo "Contents of gh-pages:"
+          ls -la gh-pages/
       - name: Rename report to index.html
         if: always()
         run: |
           if [ -f test-output/ExtentReport.html ]; then
             cp test-output/ExtentReport.html gh-pages/index.html
+            echo "index.html created"
+          else
+            echo "ExtentReport.html not found"
           fi
+          echo "Final contents of gh-pages:"
+          ls -la gh-pages/
       - name: Deploy to GitHub Pages
         if: always()
         uses: peaceiris/actions-gh-pages@v4

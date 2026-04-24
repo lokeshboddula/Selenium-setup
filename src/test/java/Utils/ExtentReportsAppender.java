@@ -20,9 +20,8 @@ public class ExtentReportsAppender extends AbstractAppender {
     public void append(LogEvent event) {
         try {
             ExtentTest test = ExtentManager.getTest();
-            String message = event.getMessage().getFormattedMessage();
-            System.out.println("ExtentReportsAppender called: " + message + ", test: " + (test != null ? "not null" : "null"));
             if (test != null) {
+                String message = event.getMessage().getFormattedMessage();
                 org.apache.logging.log4j.Level level = event.getLevel();
                 
                 if (level.isMoreSpecificThan(org.apache.logging.log4j.Level.ERROR)) {
