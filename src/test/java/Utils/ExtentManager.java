@@ -16,7 +16,7 @@ public class ExtentManager {
 
             extent = new ExtentReports();
             extent.attachReporter(reporter);
-
+            extent.setSystemInfo("Path","Extent report path: " + System.getProperty("user.dir") + "/test-output/ExtentReport.html");
             extent.setSystemInfo("Tester", "Your Name");
             extent.setSystemInfo("Environment", "QA");
         }
