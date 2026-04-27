@@ -40,6 +40,9 @@ jobs:
           if [ -d test-output ]; then
             cp -r test-output/* gh-pages/ 2>/dev/null || true
           fi
+          if [ -d target/cucumber-reports ]; then
+            cp -r target/cucumber-reports gh-pages/ 2>/dev/null || true
+          fi
           echo "Contents of gh-pages:"
           ls -la gh-pages/
       - name: Rename report to index.html
